@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+	<style scoped>
+	    @import url("css/Home.css");
+	</style>
+	<script>
+		$(function() {
+			$('.section-btn').click(function() {
+				var text = $(this).text()
+				if(text=='account') {
+					location.href = "Main.jsp"
+				} else if (text=='donation') {
+					location.href = "../Donation/Donation.jsp"
+				} else if (text=='card-issue') {
+					location.href = "../Card/Card.jsp"
+				} else if (text=='event') {
+					location.href = "../Event/Event.jsp"
+				} else {
+					location.href = "../Notice/Notice.jsp"
+				}
+			})
+		})
+		
+	</script>
+</head>
+
+<body>
+	
+	<div class="scrolls">
+		<img src="img/scroll.png" style="width: 40%;">
+	</div>
+	<div class="smooth">
+		<div class="header">
+			<ul>
+			  <li><a href="Main.jsp">account</a></li>
+			  <li><a href="../Donation/Donation.jsp">donation</a></li>
+			  <li><a href="../Card/Card.jsp">card-issue</a></li>
+			  <li><a href="../Event/Event.jsp">event</a></li>
+			  <li><a href="../Notice/Notice.jsp">notice</a></li>
+			</ul>
+		</div>
+		<div class="aside">
+			<ul>
+			  <li><a href="#account"><div class="circle"></div></a></li>
+			  <li><a href="#donation"><div class="circle"></div></a></li>
+			  <li><a href="#card-issue"><div class="circle"></div></a></li>
+			  <li><a href="#event"><div class="circle"></div></a></li>
+			  <li><a href="#footer"><div class="circle"></div></a></li>
+			</ul>
+		</div>
+	  <div class="section" id="account">
+		<div class="row" style="width: 100%;">
+			<div class="col-1"></div>
+			<div class="col-6">
+				<div class="account-content animate__animated animate__jackInTheBox">
+					<h1>기부와 함께하는</h1>
+					<h1>금융문화, </h1>
+					<h1>GNT와 함께하자!</h1>
+				</div>
+				<button class="section-btn">account</button>
+			</div>
+			<div class="col-4">
+				<img src="img/1_Account.png" style="width: 80%;">
+			</div>
+			<div class="col-1"></div>
+		</div>
+	  </div>
+	  <div class="section" id="donation">
+		<div class="row" style="width: 100%;">
+			<div class="col-1"></div>
+			<div class="col-6">
+				<div class="animate__animated animate__slideInLeft">
+					<h1>다양한 모금함을</h1>
+					<h1>확인하고 </h1>
+					<h1>원하는 만큼 기부하자!</h1>
+				</div>
+				<button class="section-btn">donation</button>
+			</div>
+			<div class="col-4">
+				<img src="img/2_Donation.png" style="width: 80%;">
+			</div>
+			<div class="col-1"></div>
+		</div>
+	  </div>
+	  <div class="section" id="card-issue">
+		<div class="row" style="width: 100%;">
+			<div class="col-1"></div>
+			<div class="col-6">
+				<h1>기부가 모여</h1>
+				<h1>나만의 카드도</h1>
+				<h1>생성하고!</h1>
+				<button class="section-btn">card-issue</button>
+			</div>
+			<div class="col-4">
+				<img src="img/3_Card.png" style="width: 80%;">
+			</div>
+			<div class="col-1"></div>
+		</div>
+	  </div>
+	  <div class="section" id="event">
+		<div class="row" style="width: 100%;">
+			<div class="col-1"></div>
+			<div class="col-6">
+				<h1>매일매일의 이벤트까지!</h1>
+				<h1>마일리지 받고 </h1>
+				<h1>경품추첨 받자~</h1>
+				<button class="section-btn">event</button>
+			</div>
+			<div class="col-4">
+				<img src="img/4_Event.png" style="width: 80%;">
+			</div>
+			<div class="col-1"></div>
+		</div>
+	  </div>
+	  <div class="section" id="footer">
+		<div class="row" style="width: 100%;">
+			<div class="col-1"></div>
+			<div class="col-6">
+				<h1 style="font-size: 5rem">GNT</h1>
+				<h1 style="font-size: 5rem">기부 낫 테이크</h1>
+				<h5 style="font-size: 1rem; font-weight: 500; margin-left: 5rem; margin-top: 0px; text-decoration: underline;">(주)GiveNotTake</h5>
+				<h5 style="font-size: 1rem; font-weight: 500; margin-left: 5rem; margin-top: 0px;">부산광역시 기장군 일광면 부산은행 기장연수원, 203호 문 앞 자리</h5>
+				<h5 style="font-size: 1rem; font-weight: 500; margin-left: 5rem;">개발자 번호 : 010-2676-5827</h5>
+				<h5 style="font-size: 1rem; font-weight: 500; margin-left: 5rem; margin-top: 0px;">개발자 메일 : yudding23@gmail.com</h5>
+				<button class="section-btn" style="margin-top: 2rem;">Notice</button>
+			</div>
+			<div class="col-4" style="text-align: end">
+				<img src="img/5_Footer.png" style="width: 80%; margin-top: 3rem;">
+			</div>
+			<div class="col-1"></div>
+		</div>
+	  </div>
+	</div>
+</body>
+</html>

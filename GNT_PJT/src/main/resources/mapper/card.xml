@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ns.sql.CardMapper">
+
+
+
+	<!-- 카드 생성 :: 발급 -->
+ 	<insert id="insertCard" parameterType="card">
+		INSERT
+		INTO card(card_id, cvc, bg_front, bg_back, emo_id, emo_info_top, emo_info_left, font_front, font_back, font_color_front, font_color_back, card_content)
+		VALUES ( #{cardId}, #{cvc}, #{bgFront}, #{bgBack}, #{emoId}, #{emoInfoTop}, #{emoInfoLeft}, #{fontFront}, #{fontBack}, #{fontColorFront}, #{fontColorBack}, #{cardContent})
+	</insert>
+	
+	
+	
+	<!-- 카드 연결 :: user id를 알아내서? account 뽑아오기 -->
+	<select id="selectCardAccId" parameterType="int" resultType="string">
+		SELECT acc_id
+		FROM users
+		WHERE user_id=#{value}
+	</select>
+	<!-- 카드 연결 :: accountVO에 담아와서 DB에 추가하기 -->
+	<update id="updateCardIdOnAccount" parameterType="account">
+		UPDATE account
+		SET card_id = #{cardId}
+		WHERE acc_id=#{accId}
+	</update>
+	
+	
+	
+	<!-- 카드 삭제 :: 재발급을 위한 delete For Card -->
+	<delete id="deleteCard" parameterType="string">
+		DELETE
+		FROM card
+		WHERE card_id=#{value}
+	</delete>
+	
+	
+	
+	<!-- 카드 중복 체크 :: 모든 사람들의 계좌번호 반환 (List<String>) -->
+	<select id="selectAccIds" resultType="string">
+		SELECT acc_id
+		FROM users
+	</select>
+	<!-- 카드 중복 체크 :: 모든 계좌들의 카드번호 반환 (String) -->
+	<select id="selectCardId" parameterType="string" resultType="string">
+		SELECT card_id
+		FROM account
+		WHERE acc_id=#{value}
+	</select>
+	
+	
+	
+	<!-- 발급 완료 -->
+	<update id="updateCardIsIssued" parameterType="string">
+		UPDATE card
+		SET is_issued = '1' , create_time = sysdate , end_time = sysdate+182
+		WHERE card_id=#{value}
+	</update>
+	
+	
+	
+	<!-- 카드 존재 유무 -->
+	<select id="selectCardDelete" parameterType="string" resultType="string">
+		SELECT card_id
+		FROM account
+		WHERE acc_id = #{value}
+	</select>
+	
+	
+	
+	<!-- 카드 조회 :: 카드 발급 유무 -->
+	<select id="selectIsIssued" parameterType="string" resultType="string">
+		SELECT is_issued
+		FROM card
+		WHERE card_id = #{value}
+	</select>
+	<!-- 카드 조회 :: 카드 날짜 확인 -->
+	<select id="selectEndtime" parameterType="string" resultType="string">
+		SELECT end_time
+		FROM card
+		WHERE card_id = #{value}
+	</select>
+	<!-- 카드 조회 :: 카드 값 반환 -->
+	<select id="selectCard" parameterType="string" resultType="card">
+		SELECT card_id, cvc, bg_front, bg_back, emo_id, emo_info_top, emo_info_left, font_front, font_Back, font_color_front, font_color_back, card_content, is_unique_color, is_unique_font
+		FROM card
+		WHERE card_id = #{value}
+	</select>
+	
+	
+	
+	<!-- 카드 저장 :: 있는데 다시 저장(값만 바꾸기) -->
+	<update id="updateCard" parameterType="card">
+		UPDATE card
+		SET bg_front=#{bgFront}, bg_back=#{bgBack}, emo_id=#{emoId}, emo_info_top=#{emoInfoTop}, emo_info_left=#{emoInfoLeft}, font_front=#{fontFront}, font_back=#{fontBack}, font_color_front=#{fontColorFront}, font_color_back=#{fontColorBack}, card_content=#{cardContent}
+		WHERE card_id=#{cardId}
+	</update>
+	
+	
+	
+	
+	
+	
+	<!-- 2022.09.05 추가 -->
+	<!-- 이벤트 경품 :: 특별한 색 얻기 -->
+	<update id="updateIsUniqueColor" parameterType="string">
+		UPDATE card
+		SET is_unique_color = '1'
+		WHERE card_id = #{cardId}
+	</update>
+
+	<!-- 이벤트 경훔 :: 특별한 폰트 얻기 -->
+	<update id="updateIsUniqueFont" parameterType="string">
+		UPDATE card
+		SET is_unique_font = '1'
+		WHERE card_id = #{cardId}
+	</update>
+	
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,445 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: 'Katuri';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_13@1.0/Katuri.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Happiness-Sans-Title';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/Happiness-Sans-Title.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body:after {
+	mix-blend-mode: multiply;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translate(-50%, 38.25%);
+	text-align: center;  
+}
+
+.success {
+	display: none;
+	position: fixed;
+	width: 100vw;
+	height: 100%;
+	z-index: 3;
+	opacity: 0.7;
+}
+
+.donation_modal {
+	font-family: 'Katuri';
+    position: absolute;
+    z-index: 5;
+    background: white;
+    left: 38%;
+    top: 35%;
+    padding: 3rem;
+    border-radius: 30px;
+    color: black;
+    text-align: center;
+}
+
+.donation_modal h1 {
+	font-size: xx-large;
+}
+
+.donation_modal h3 {
+	margin-top: 2rem;
+	margin-bottom: 3rem;
+	font-size: x-large;
+}
+
+.donation_modal button {
+    background-color: #ffcf63;
+    border: none;
+    border-radius: 30px;
+    padding: 1rem 2rem;
+    font-size: x-large;
+    font-weight: 100;
+    color: white;
+}
+
+
+/* 사진 */
+
+.example {
+	position: relative;
+	width: 120%;
+	padding-top: 50%;
+	margin: 5rem auto 2rem;
+}
+.example > .block {
+	position: absolute;
+	height: 120%;
+	width: 100%;
+	perspective: 1000px;
+}
+.example > .block:nth-of-type(1) {
+	top: -15%;
+    left: 15%;
+}
+
+.example > .block > .side {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-size: auto 100%;
+	box-shadow: -1vw 0.5vw 1vw rgba(0, 0, 0, 0.3);
+}
+.example > .block > .side.-main {
+	height: 100%;
+	width: 65%;
+	transform: rotateY(25deg);
+	transform-origin: 0 50%;
+}
+.example > .block > .side.-left {
+	height: 100%;
+	width: 20%;
+	transform-origin: 0 50%;
+	transform: rotateY(-60deg) translateX(-100%);
+	filter: brightness(40%);
+}
+.example > .block:nth-of-type(1) > .side.-main {
+    background-position: 0% 0;
+	background-size: auto 130%;
+}
+.example > .block:nth-of-type(1) > .side.-left {
+    background-position: 30% 0;
+	background-size: auto 130%;
+}
+
+.donation_detail_title {
+	font-family: 'Katuri';
+	font-weight: bold;
+	font-size: xx-large;
+}
+
+.donation_detail_category {
+	font-family: 'Katuri';
+	font-weight: bold;
+	font-size: x-large;
+}
+
+.donation_detail_organization {
+	color: #AD7D52;
+	font-family: 'Katuri';
+	text-align: end;
+	font-size: large;
+    font-weight: 300;
+}
+
+.donation_detail_content {
+	font-family: 'Katuri';
+	margin-top: 2rem;
+	overflow: visible;
+	height: 70%;
+}
+
+.content-title {
+	margin-bottom: 1rem;
+}
+
+.content-content {
+	padding-bottom: 3rem;
+}
+
+
+.container-fluid {
+  position: relative;
+  width: 50%;
+  text-align: center;
+  border-radius: 4px;
+  border: none;
+  box-sizing: border-box;
+  background-color: #fff2c61c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.Loading {
+  position: relative;
+  display: inline-block;
+  width: 80%;
+  height: 20px;
+  background: #f1f1f1;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, .2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.Loading-after {
+	height: 20px;
+}
+
+.progress-span {
+	margin-left: 1rem;
+	font-family: 'Happiness-Sans-Title';
+	font-size: x-large;
+}
+
+.donation_detail_date {
+	font-family: 'Katuri';
+	font-size: xx-large;
+	font-weight: 300;
+    position: relative;
+    top: 2%;
+}
+
+.donation_detail_amount {
+	font-family: 'Katuri';
+	font-size: large;
+	font-weight: 300;
+}
+.donation_detail_limit {
+	font-family: 'Katuri';
+	font-size: large;
+	font-weight: 300;
+}
+
+/* arrow */
+.arrow{
+    position: relative;
+    left: 15%;
+    transform: translate(0%,90%);
+    display: flex;
+}
+.arrow span{
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-bottom: 5px solid #ffbf2b;
+    border-right: 5px solid #ffd982;
+    transform: rotate(-45deg);
+    margin: -25px;
+    animation: animate 2s infinite;
+}
+.arrow span:nth-child(2){
+    animation-delay: -0.2s;
+}
+.arrow span:nth-child(3){
+    animation-delay: -0.4s;
+}
+.arrow span:nth-child(4){
+    animation-delay: -0.6s;
+}
+.arrow span:nth-child(5){
+    animation-delay: -0.8s;
+}
+.arrow span:nth-child(6){
+    animation-delay: -1s;
+}
+@keyframes animate {
+    0%{
+        opacity: 0;
+        transform: rotate(-45deg) translate(-10px,-10px);
+    }
+    50%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+        transform: rotate(-45deg) translate(10px,10px);
+    }
+}
+
+
+/* 기부 버튼 */
+
+.fingerbtn	 {
+	font-family: 'Katuri';
+	align-items: center;
+	background: #ffd982;
+	border-radius: 40px;
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+	display: flex;
+	height: 80px;
+	justify-content: center;
+	position: relative;
+	width: 200px;
+	font-size: xx-large;
+    font-weight: 300;
+	margin: 3rem auto;
+	cursor: pointer;
+}
+
+.text {
+  color: white;
+  position: absolute;
+  transition: opacity 300ms;
+  user-select: none;
+  -moz-user-select: none;
+}
+
+.fingerprint {
+  /* height: 80px; */
+  left: -8px;
+  opacity: 0;
+  position: absolute;
+  stroke: #777;
+  top: -9px;
+  transition: opacity 1ms;
+}
+
+.fingerprint-active {
+  stroke: #fff;
+}
+
+.fingerprint-out {
+  opacity: 1;
+}
+
+.odd {
+  stroke-dasharray: 0px 50px;
+  stroke-dashoffset: 1px;
+  transition: stroke-dasharray 0.5ms;
+}
+
+.even {
+  stroke-dasharray: 50px 50px;
+  stroke-dashoffset: -41px;
+  transition: stroke-dashoffset 0.5ms;
+}
+
+.ok {
+  opacity: 0;
+}
+
+.active.fingerbtn {
+  animation: 3s Container;
+}
+
+.active .text {
+  opacity: 0;
+  animation: 3s Text forwards;
+}
+
+.active .fingerprint {
+  opacity: 1;
+  transition: opacity 300ms 200ms;
+}
+
+.active .fingerprint-base .odd {
+  stroke-dasharray: 50px 50px;
+  transition: stroke-dasharray 400ms 100ms;
+}
+
+.active .fingerprint-base .even {
+  stroke-dashoffset: 0px;
+  transition: stroke-dashoffset 400ms;
+}
+
+.active .fingerprint-active .odd {
+  stroke-dasharray: 50px 50px;
+  transition: stroke-dasharray 1000ms 750ms;
+}
+
+.active .fingerprint-active .even {
+  stroke-dashoffset: 0px;
+  transition: stroke-dashoffset 1000ms 650ms;
+}
+
+.active .fingerprint-out {
+  opacity: 0;
+  transition: opacity 150ms 2150ms;
+}
+
+.active .ok {
+  opacity: 1;
+  animation: 3s Ok forwards;
+}
+
+@keyframes Container {
+  0% { width: 200px }
+  6% { width: 80px }
+  71% { transform: scale(1); }
+  75% { transform: scale(1.2); }
+  77% { transform: scale(1); }
+
+  94% { width: 80px }
+  100% { width: 200px }
+}
+
+@keyframes Text {
+  0% { opacity: 1; transform: scale(1); }
+  6% { opacity: 0; transform: scale(0.5); }
+
+  94% { opacity: 0; transform: scale(0.5); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes Ok {
+  0% { opacity: 0 }
+  70% { opacity: 0; transform: scale(0); }
+  75% { opacity: 1; transform: scale(1.1); }
+  77% { opacity: 1; transform: scale(1); }
+  92% { opacity: 1; transform: scale(1); }
+  96% { opacity: 0; transform: scale(0.5); }
+  100% { opacity: 0 }
+}
+
+
+.donation_detail_part {
+	margin: 3rem;
+    text-align: center;
+    font-size: x-large;
+    color: skyblue;
+    font-weight: bold;
+}
+
+
+
+/* loading 화면 */
+#loader-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; }
+#loader { display: block; position: relative; left: 50%; top: 50%; width: 150px; height: 150px; margin: -75px 0 0 -75px; border-radius: 50%; border: 3px solid transparent; border-top-color: #3498db; /* Chrome, Opera 15+, Safari 5+ */
+	animation: spin 2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */ z-index: 2001; }
+#loader:before { content: ""; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; border-radius: 50%; border: 3px solid transparent;
+	border-top-color: #e74c3c; /* Chrome, Opera 15+, Safari 5+ */
+	animation: spin 3s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */ }
+#loader:after { content: ""; position: absolute; top: 15px; left: 15px; right: 15px; bottom: 15px; border-radius: 50%; border: 3px solid transparent;
+	border-top-color: #f9c922; /* Chrome, Opera 15+, Safari 5+ */ animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */ }
+@keyframes spin {
+	0%   {  /* Chrome, Opera 15+, Safari 3.1+ */  /* IE 9 */
+		transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
+	}
+	100% {  /* Chrome, Opera 15+, Safari 3.1+ */  /* IE 9 */
+		transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
+	}
+}
+
+#loader-wrapper .loader-section { position: fixed; top: 0; width: 51%; height: 100%; background: #ffffff; z-index: 2000;  /* Chrome, Opera 15+, Safari 3.1+ */  /* IE 9 */ transform: translateX(0);  /* Firefox 16+, IE 10+, Opera */}
+
+#loader-wrapper .loader-section.section-left { left: 0; }
+
+#loader-wrapper .loader-section.section-right { right: 0; }
+
+/* Loaded */
+.loaded #loader-wrapper .loader-section.section-left {  /* Chrome, Opera 15+, Safari 3.1+ */  /* IE 9 */
+	transform: translateX(-100%);  /* Firefox 16+, IE 10+, Opera */  
+	transition: all 1s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+}
+
+.loaded #loader-wrapper .loader-section.section-right {  /* Chrome, Opera 15+, Safari 3.1+ */  /* IE 9 */
+	transform: translateX(100%);  /* Firefox 16+, IE 10+, Opera */  
+	transition: all 1s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+}
+
+.loaded #loader {
+	opacity: 0;  
+	transition: all 1s ease-out;
+}
+.loaded #loader-wrapper {
+	visibility: hidden;  /* Chrome, Opera 15+, Safari 3.1+ */  /* IE 9 */
+	transform: translateY(-100%);  /* Firefox 16+, IE 10+, Opera */  
+	transition: all 0.3s 1s ease-out;
+}
+
+.no-js #loader-wrapper { display: none; }
+

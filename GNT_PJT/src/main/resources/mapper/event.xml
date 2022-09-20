@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ns.sql.EventMapper">
+
+	<!-- 퀴즈를 오늘 풀었나 안 풀었나 확인 -->
+	<select id="selectQuizCK" parameterType="int" resultType="string">
+		SELECT is_quiz_participate
+		FROM users
+		WHERE user_id=#{value}
+	</select>
+	<!-- 퀴즈 번호에 맞는 퀴즈 데이터 가져오기 :: 첫번째, quiz_id부터 가져오기 + 퀴즈 풀이 이후 :: 퀴즈 정답 가져오기 1(사용자->퀴즈 번호) -->
+	<select id="selectQuizId" parameterType="int" resultType="int">
+		SELECT quiz_id
+		FROM users
+		WHERE user_id=#{value}
+	</select>
+	<!-- 퀴즈 번호에 맞는 퀴즈 데이터 가져오기 :: 두번째, quiz select 하기 -->
+	<select id="selectQuiz" parameterType="int" resultType="quiz"> <!-- error check :: select 절에 몇 개만 뽑아서 vo에 그대로 넣을 수 있나? -->
+		SELECT quiz_content, select1, select2, select3, select4
+		FROM quiz
+		WHERE quiz_id=#{value}
+	</select>
+
+
+
+
+
+
+	<!-- 퀴즈 풀이 이후 :: 퀴즈 정답 가져오기 2(퀴즈 번호->퀴즈 정답) -->
+	<select id="selectQuizAnswer" parameterType="int" resultType="int">
+		SELECT answer
+		FROM quiz
+		WHERE quiz_id=#{value}
+	</select>
+	<!-- 퀴즈 풀이 이후 :: 퀴즈 여부 변경+퀴즈 번호 증가-->
+	<update id="updateQuizUser" parameterType="int">
+		UPDATE users
+		SET is_quiz_participate='1' , quiz_id = quiz_id+1
+		WHERE user_id=#{value}
+	</update>
+	
+	
+	
+	
+	<!-- 퀴즈 정답 :: accId 찾아오기(마일리지 back을 위한) -->
+	<select id="selectQuizAccId" parameterType="int" resultType="string">
+		SELECT acc_id
+		FROM users
+		WHERE user_id = #{value}
+	</select>
+	<!-- 퀴즈 정답 :: 마일리지 back -->
+	<update id="updateQuizMileage" parameterType="account">
+		UPDATE account
+		SET mileage = mileage + #{mileage}
+		WHERE acc_id = #{accId}
+	</update>
+	<!-- 퀴즈 정답 :: 마일리지 히스토리 PK값 올리기(selectKey 대체) -->
+	<select id="selectMilieageHistorySeq" resultType="int">
+		SELECT mileage_history_seq.NEXTVAL
+		FROM dual
+	</select>
+	<!-- 퀴즈 정답 :: 마일리지 히스토리 추가 -->
+	<insert id="insertMilieage" parameterType="mileageHistory">
+		INSERT
+		INTO mileage_history(mileage_pk, acc_id, mileage_amount, mileage_content)
+		VALUES (#{mileagePk}, #{accId}, #{mileageAmount}, #{mileageContent})
+	</insert>
+	
+	
+	
+	
+	
+	<!-- 퀴즈, 룰렛 리셋 --> <!-- change -->
+	<update id="updateEventReset">
+		UPDATE users
+		SET is_quiz_participate='0', is_roulette_participate='0'
+	</update>
+	
+	
+	
+	
+	<!-- 돌림판을 오늘 돌렸나 안 돌렸나 확인 -->
+	<select id="selectRouletteCK" parameterType="int" resultType="string">
+		SELECT is_roulette_participate
+		FROM users
+		WHERE user_id=#{value}
+	</select>
+	<!-- 돌림판 실행 이후 -->
+	<update id="updateRouletteUser" parameterType="int">
+		UPDATE users
+		SET is_roulette_participate='1'
+		WHERE user_id=#{value}
+	</update>
+	
+	
+	<!-- 돌림판 리셋(을 위한 user_id 가져오기) -->
+	<select id="selectAllUserId" resultType="int">
+		SELECT user_id
+		FROM users
+		WHERE user_id not in(1, 2, 3, 4) <!-- 관리자 user_id 제외 -->
+	</select>
+	
+	
+	
+	
+	
+	<!-- 2022.09.05 추가 -->
+	
+	
+	<!-- 테이블 생성 :: seq 올리기  -->
+	<select id="selectGameSeq" resultType="int">
+		SELECT game_seq.NEXTVAL
+		FROM dual
+	</select>
+	
+	<!-- 테이블 생성 :: 처음 만들었을 때 -->
+	<insert id="insertGame" parameterType="game">
+		INSERT
+		INTO game(game_id, user_id)
+		VALUES (#{gameId}, #{userId})
+	</insert>
+
+	
+	<!-- 게임 참가 했나 안 했나 확인 -->
+	<select id="selectIsToday" parameterType="int" resultType="string">
+		SELECT is_today
+		FROM game
+		WHERE user_id = #{value}
+	</select>
+	
+	<!-- 게임 내일 참가 하나 안 하나 확인 -->
+	<select id="selectIsTomorrow" resultType="game">
+		SELECT user_id, is_tomorrow
+		FROM game
+	</select>
+	
+	<!-- 게임 불러오기 :: game_location, round_trip 반환 -->
+	<select id="selectGame" parameterType="int" resultType="game">
+		SELECT game_location, round_trip, top, left
+		FROM game
+		WHERE user_id = #{value}
+	</select>
+	
+		
+	<!-- 게임이 끝났을 때 :: 현재 상태 저장 -->
+	<update id="updateGame" parameterType="game">
+		UPDATE game
+		SET game_location=#{gameLocation}, round_trip = #{roundTrip}, is_today=#{isToday}, is_tomorrow=#{isTomorrow}, top=#{top}, left=#{left}
+		WHERE user_id = #{userId}
+	</update>
+	
+	
+	<!-- 게임 리셋 :: 일반 -->
+	<update id="updateGameIsTodayReset">
+		UPDATE game
+		SET is_today = '0'
+	</update>
+	
+	
+	<!-- 게임 리셋 :: 내일 하면 안 되는 사람~ -->
+	<update id="updateGameIsTomorrowReset" parameterType="int">
+		UPDATE game
+		SET is_today = '1', is_tomorrow = '0'
+		WHERE user_id = #{userId}
+	</update>
+	
+	
+	
+	
+	
+	<!-- 	
+	<insert id="insertGame" parameterType="game">
+		INSERT
+		INTO game(game_id, user_id, game_location, round_trip, is_today, is_tomorrow)
+		VALUES (#{gameId}, #{userId}, #{gameLocation}, #{roundTrip}, #{isToday}, #{isTomorrow})
+	</insert>
+	 -->
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="ns.sql.DonationMapper">
+
+	 	<resultMap type="donation" id="donationProperty">
+	 	<result property="donationId" column="DONATION_ID" jdbcType="VARCHAR" />	
+	  	<result property="categoryId" column="CATEGORY_ID" jdbcType="INTEGER" />	
+		<result property="title" column="TITLE" jdbcType="VARCHAR" />
+	 	<result property="organization" column="ORGANIZATION" jdbcType="VARCHAR" />
+	 	<result property="organizationDescript" column="ORGANIZATION_DESCRIPT" jdbcType="VARCHAR" />
+	 	<result property="imageUri" column="IMAGE_URI" jdbcType="VARCHAR" />	
+	 	<result property="section1Title" column="SECTION1_TITLE" jdbcType="VARCHAR" />	
+	 	<result property="section1" column="SECTION1" jdbcType="VARCHAR" />
+	 	<result property="section2Title" column="SECTION2_TITLE" jdbcType="VARCHAR" />
+	 	<result property="section2" column="SECTION2" jdbcType="VARCHAR" />
+	 	<result property="section3Title" column="SECTION3_TITLE" jdbcType="VARCHAR" />	
+	 	<result property="section3" column="SECTION3" jdbcType="VARCHAR" />	
+	 	<result property="section4Title" column="SECTION4_TITLE" jdbcType="VARCHAR" />
+	 	<result property="section4" column="SECTION4" jdbcType="VARCHAR" />
+	 	<result property="section5Title" column="SECTION5_TITLE" jdbcType="VARCHAR" />
+	 	<result property="section5" column="SECTION5" jdbcType="VARCHAR" />	
+	 	<result property="createTime" column="CREATE_TIME" jdbcType="DATE" />	
+	 	<result property="endTime" column="END_TIME" jdbcType="DATE" />
+	 	<result property="donationAmount" column="DONATION_AMOUNT" jdbcType="INTEGER" />
+	 	<result property="donationLimit" column="DONATION_LIMIT" jdbcType="INTEGER" />
+	 </resultMap>
+
+
+	<select id="selectDonationAsk" parameterType="string" resultType="Donation">
+		<![CDATA[
+		select * from (
+		select DONATION_ID,CATEGORY_ID,DONATION_LIMIT,DONATION_AMOUNT,TITLE,IMAGE_URI,ORGANIZATION from
+		donation
+		order by CREATE_TIME desc
+		)
+		where rownum <= 15]]>
+		<!-- TITLE,CREATE_TIME,END_TIME -->
+	</select>
+	<select id="selectDonationPage" parameterType="int" resultType="Donation">
+		select DONATION_ID,CATEGORY_ID,title, ORGANIZATION,
+		ORGANIZATION_DESCRIPT,IMAGE_URI, SECTION1_TITLE, SECTION1,SECTION2_TITLE, SECTION2,
+		SECTION3_TITLE,SECTION3, SECTION4_TITLE, SECTION4, SECTION5_TITLE, SECTION5,CREATE_TIME
+		,END_TIME,DONATION_AMOUNT,DONATION_LIMIT from
+		(select rownum as rn, DONATION_ID,CATEGORY_ID,title, ORGANIZATION,
+		ORGANIZATION_DESCRIPT,IMAGE_URI, SECTION1_TITLE, SECTION1,SECTION2_TITLE, SECTION2,
+		SECTION3_TITLE,SECTION3, SECTION4_TITLE, SECTION4, SECTION5_TITLE, SECTION5,CREATE_TIME
+		,END_TIME,DONATION_AMOUNT,DONATION_LIMIT
+		from (
+		select * from
+		donation
+		order by CREATE_TIME desc
+		))
+        Where rn between 15*(#{k}-1)+1 and 15*#{k}
+	</select>
+	<select id="selectCategoryPage" parameterType="int" resultType="Donation">
+		
+		select * from (
+		select * from
+		donation
+		order by CREATE_TIME desc
+		)
+		WHERE CATEGORY_ID = #{categoryId}	
+	</select>
+	<select id="selectDonationDetail" parameterType="String" resultType="Donation">
+		select * from donation
+		WHERE DONATION_ID = #{donationId}	
+	</select>
+	<select id="selectAccIdByUserId" parameterType="String" resultType="Donation">
+		select ACC_ID from users
+		WHERE USER_ID = #{userId}	
+	</select>	<!--아마 안쓸듯 -->
+	<update id="updateDonationAmount" parameterType="Donation">
+		UPDATE
+		DONATION
+		SET DONATION_AMOUNT = DONATION_AMOUNT+#{donationAmount}
+		WHERE DONATION_ID = #{donationId}
+	</update>
+	<update id="updateMileage" parameterType="ACCOUNT">
+		UPDATE
+		ACCOUNT
+		SET MILEAGE = #{mileage}
+		WHERE ACC_ID = #{accId}
+	</update>
+	<insert id="insertDonationHistory" parameterType="DonationHistory">
+
+		INSERT INTO
+		DONATION_HISTORY (DONATION_HISTORY_ID, DONATION_ID, USER_ID, CREATE_TIME, AMOUNT)
+		VALUES (DONATION_HISTORY_SEQ.nextVal, #{donationId}, #{userId}, SYSDATE, #{donationAmount})
+	</insert>
+	
+</mapper>

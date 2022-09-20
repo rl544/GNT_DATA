@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="ns.sql.UserMapper">
+	<resultMap type="users" id="Userreg">
+	 	<result property="userId" column="user_id" jdbcType="NUMERIC" />	
+	 	<result property="userName" column="user_name" jdbcType="VARCHAR" />	
+	 	<result property="userPassword" column="user_password" jdbcType="VARCHAR" />
+	 	<result property="userEmail" column="user_email" jdbcType="VARCHAR" />
+	 	<result property="accId" column="acc_id" jdbcType="VARCHAR" />
+	 	<result property="userNameEng" column="user_name_eng" jdbcType="VARCHAR" />
+	 	<result property="address" column="address" jdbcType="VARCHAR" />	
+	 	<result property="phone" column="phone" jdbcType="VARCHAR" />
+	 	<result property="totalDonation" column="total_donation" jdbcType="INTEGER"/>
+	 	<result property="quizId" column="quiz_id" jdbcType="INTEGER" />
+	 	<result property="isQuizParticipate" column="is_quiz_participate" jdbcType="VARCHAR"/>
+	 </resultMap>
+	 
+	<update id="updateUserInfo" parameterType="users">
+	UPDATE USERS
+	SET 
+		acc_id=#{accId},
+		user_name_eng=#{userNameEng},
+		address=#{address},
+		phone=#{phone}
+	 WHERE user_id = #{userId}
+	</update>
+	<!-- 	UPDATE users
+	SET (acc_id, user_name_eng, address, phone)	= (select 
+	( SELECT acc_id FROM account WHERE acc_id=#{accId} ),
+	#{userNameEng}, #{address}, #{phone} from dual)
+	WHERE user_id = #{userId} -->
+	<select id="selectAccIdByUserId" parameterType="integer" resultType="string">
+		SELECT acc_id
+		FROM users
+		WHERE user_id = #{VALUE}
+	</select>
+
+	<select id="selectUserById" parameterType="integer" resultType="users" resultMap="Userreg">
+		SELECT user_id, acc_id, user_name, user_name_eng, user_email,
+		address, phone, total_donation, quiz_id, is_quiz_participate
+		FROM users
+		WHERE user_id = #{VALUE}
+	</select>
+	<select id="selectUserId" parameterType="users" resultType="integer">
+		SELECT user_id
+		FROM users
+		WHERE user_password = ${userPassword} AND user_name = #{userName} AND user_email = #{userEmail}	
+	</select>
+	<insert id="insertUser" parameterType="users">
+		<selectKey keyProperty="userId" resultType="int" order="BEFORE">
+			SELECT users_seq.nextVal FROM dual
+		</selectKey>
+		INSERT INTO
+		USERS (user_id, user_password, user_name, user_email)
+		VALUES (#{userId}, #{userPassword}, #{userName}, #{userEmail})
+	</insert>
+	<select id="selectUserEmail" parameterType="users" resultMap="Userreg">
+		SELECT USER_EMAIL
+		FROM USERS
+		WHERE USER_EMAIL=#{userEmail}
+	</select>
+	<select id="selectUser" parameterType="users" resultMap="Userreg">
+		SELECT user_id, acc_id, user_name, user_name_eng, user_email, USER_PASSWORD,
+		address, phone, total_donation, quiz_id, is_quiz_participate
+		FROM USERS
+		WHERE USER_EMAIL=#{userEmail}
+		AND USER_PASSWORD=#{userPassword}
+	</select>
+	
+</mapper>

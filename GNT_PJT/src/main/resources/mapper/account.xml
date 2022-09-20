@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="ns.sql.AccountMapper">
+	<resultMap type="account" id="userSelectMap">
+		<result property="accId" column="acc_id" jdbcType="VARCHAR" />	
+		<result property="cardId" column="card_id" jdbcType="VARCHAR" />	
+		<result property="accPassword" column="acc_password" jdbcType="NUMERIC" />	
+		<result property="createTime" column="create_time" jdbcType="DATE" />
+		<result property="accAmount" column="acc_amount" jdbcType="NUMERIC" />	
+		<result property="mileage" column="mileage" jdbcType="NUMERIC" />	
+	</resultMap>
+
+	<select id="createAccKey" resultType="string">
+		SELECT TRUNC(DBMS_RANDOM.VALUE(power(10,12)+1, power(10,13)-1)) RANDOM FROM DUAL
+	</select>
+	<select id="validateAccId" parameterType="string" resultType="string">
+		SELECT count(acc_id) FROM account
+		WHERE acc_id = #{VALUE}
+	</select>
+	<insert id="insertAccount" parameterType="account">
+		INSERT	INTO account(acc_id, acc_password, create_time)
+		VALUES (#{accId}, #{accPassword}, SYSDATE)
+	</insert>
+	<select id="selectAccIdExistancy" parameterType="integer" resultType="integer">
+		SELECT count(acc_id) FROM users
+		WHERE user_id = #{VALUE}
+	</select>
+	
+	<select id="checkAccountPassword" parameterType="account" resultType="integer">
+		SELECT count(*)
+		FROM account
+		WHERE acc_id = #{accId} AND acc_password = #{accPassword}
+	</select>
+
+	<select id="selectAccountAmount" parameterType="string" resultType="integer">
+		SELECT acc_amount
+		FROM account
+		WHERE acc_id = #{VALUE}
+	</select>
+	<update id="updateAccountAmount" parameterType="account">
+		UPDATE account
+		SET acc_amount = acc_amount + #{accAmount}
+		WHERE acc_id = #{accId}
+	</update>
+	<update id="updateAccountIsMileage" parameterType="string">
+		UPDATE account
+		SET is_mileage = '1'
+		WHERE acc_id = #{VALUE}
+	</update>
+
+	<select id="selectMileage" parameterType="string" resultType="int">
+		SELECT mileage
+		FROM account
+		WHERE acc_id = #{VALUE}
+	</select>
+	<select id="selectLastMileageHistory" parameterType="string" resultType="mileageHistory">
+ 		SELECT mileage_pk, acc_id, create_time, mileage_amount, mileage_content
+		FROM mileage_history
+		WHERE mileage_pk = (
+			SELECT * FROM (
+					SELECT mileage_pk
+					FROM mileage_history
+					WHERE acc_id = #{VALUE}
+					ORDER BY create_time desc
+				)
+			WHERE rownum = 1
+			)
+	</select>
+
+	<insert id="insertMileageHistory" parameterType="mileageHistory">
+ 		<selectKey keyProperty="mileagePk" resultType="int" order="BEFORE">
+		SELECT mileage_history_seq.nextVal FROM dual
+		</selectKey>
+		INSERT INTO mileage_history (mileage_pk, acc_id, create_time, mileage_amount, mileage_content)
+		VALUES (#{mileagePk}, #{accId}, SYSDATE, #{mileageAmount}, #{mileageContent})
+	</insert>
+	<update id="updateMileage" parameterType="account">
+		UPDATE account
+		SET mileage = mileage + #{mileage}
+		WHERE acc_id = #{accId}
+	</update>
+	<update id="updateAccPassword" parameterType="account">
+		UPDATE account
+		SET acc_password = #{accPassword}
+		WHERE acc_id = #{accId}
+	</update>
+	<select id="selectMileageHistory" parameterType="string" resultType="mileageHistory">
+		SELECT mileage_pk, acc_id, create_time, mileage_amount, mileage_content
+		FROM mileage_history
+		WHERE acc_id = #{VALUE}
+		ORDER BY create_time DESC
+	</select>
+
+	<select id="selectMileageHistoryCount" parameterType="string" resultType="integer">
+		SELECT count(*)
+		FROM mileage_history
+		WHERE acc_id = #{VALUE}
+	</select>
+
+	<select id="selectAccount" parameterType="string" resultType="account">
+		SELECT acc_id, card_id, create_time, acc_amount, mileage, is_mileage
+		FROM account
+		WHERE acc_id = #{VALUE}
+	</select>
+	
+</mapper>

@@ -1,0 +1,365 @@
+@charset "utf-8";
+
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700");
+* {
+  box-sizing: border-box;
+}
+
+.modalin {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0px;
+  background: rgba(51, 51, 51, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: 0.4s;
+}
+.modalin-container {
+  display: flex;
+  max-width: 900px;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  transition-duration: 0.3s;
+  background: #fff;
+  transform: translateY(100px) scale(0.4);
+}
+.modalin-title {
+  font-size: 26px;
+  margin: 0;
+  font-weight: 400;
+  color: #55311c;
+}
+.modalin-desc {
+  margin: 6px 0 30px 0;
+}
+.modalin-left {
+  padding: 60px 30px 20px;
+  background: #fff;
+  flex: 1.5;
+  transition-duration: 0.5s;
+  transform: translateY(80px);
+  opacity: 0;
+}
+.modalin-button {
+  color: #7d695e;
+  font-family: "Nunito", sans-serif;
+  font-size: 18px;
+  cursor: pointer;
+  border: 0;
+  outline: 0;
+  padding: 10px 40px;
+  border-radius: 30px;
+  background: white;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
+  transition: 0.3s;
+}
+.modalin-button:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.8);
+}
+.modalin-right {
+	flex: 2;
+	font-size: 0;
+	transition: 0.3s;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.modalin-right img {
+  width: 80%;
+  height: 80%;
+  transform: scale(2);
+  -o-object-fit: cover;
+     object-fit: cover;
+  animation: scaling 1s alternate infinite;
+}
+.modalin.is-open {
+  height: 100%;
+  background: rgba(51, 51, 51, 0.85);
+}
+.modalin.is-open .modalin-button {
+  opacity: 0;
+}
+.modalin.is-open .modalin-container {
+  opacity: 1;
+  transition-duration: 1s;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+.modalin.is-open .modalin-right img {
+  transform: scale(1);
+}
+.modalin.is-open .modalin-left {
+  transform: translateY(0);
+  opacity: 1;
+  transition-delay: 0.1s;
+}
+.modalin-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modalin-buttons a {
+  color: rgba(51, 51, 51, 0.6);
+  font-size: 14px;
+}
+
+.sign-up {
+  margin: 60px 0 0;
+  font-size: 14px;
+  text-align: center;
+}
+.sign-up a {
+  color: #8c7569;
+}
+
+.input-buttonin {
+  padding: 8px 12px;
+  outline: none;
+  border: 0;
+  color: #fff;
+  border-radius: 4px;
+  background: #8c7569;
+  font-family: "Nunito", sans-serif;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.input-buttonin:hover {
+  background: #55311c;
+}
+
+.input-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  color: #8c7569;
+  transition: 0.3s;
+}
+
+.input-block {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+.input-block input {
+  outline: 0;
+  border: 0;
+  padding: 4px 0 0;
+  font-size: 14px;
+  font-family: "Nunito", sans-serif;
+}
+.input-block input::-moz-placeholder {
+  color: #ccc;
+  opacity: 1;
+}
+.input-block input:-ms-input-placeholder {
+  color: #ccc;
+  opacity: 1;
+}
+.input-block input::placeholder {
+  color: #ccc;
+  opacity: 1;
+}
+.input-block:focus-within {
+  border-color: #8c7569;
+}
+.input-block:focus-within .input-label {
+  color: rgba(140, 117, 105, 0.8);
+}
+
+.icon-button {
+  outline: 0;
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  width: 4%;
+  height: 32px;
+  border: 0;
+  background: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+@media (max-width: 750px) {
+  .modalin-container {
+    width: 90%;
+  }
+
+  .modalin-right {
+    display: none;
+  }
+}
+
+.modalout {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0px;
+  background: rgba(51, 51, 51, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: 0.4s;
+}
+.modalout-container {
+  display: flex;
+  max-width: 900px;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  transition-duration: 0.3s;
+  background: #fff;
+  transform: translateY(100px) scale(0.4);
+}
+.modalout-title {
+  font-size: 26px;
+  margin: 0;
+  font-weight: 400;
+  color: #55311c;
+}
+.modalout-desc {
+  margin: 6px 0 30px 0;
+}
+.modalout-left {
+  padding: 60px 30px 20px;
+  background: #fff;
+  flex: 1.5;
+  transition-duration: 0.5s;
+  transform: translateY(80px);
+  opacity: 0;
+}
+.modalout-button {
+  color: #7d695e;
+  font-family: "Nunito", sans-serif;
+  font-size: 18px;
+  cursor: pointer;
+  border: 0;
+  outline: 0;
+  padding: 10px 40px;
+  border-radius: 30px;
+  background: white;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
+  transition: 0.3s;
+}
+.modalout-button:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.8);
+}
+.modalout-right {
+	flex: 2;
+	font-size: 0;
+	transition: 0.3s;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.modalout-right img {
+  width: 80%;
+  height: 80%;
+  transform: scale(2);
+  -o-object-fit: cover;
+     object-fit: cover;
+  animation: scaling 1s alternate infinite;
+}
+.modalout.is-open {
+  height: 100%;
+  background: rgba(51, 51, 51, 0.85);
+}
+.modalout.is-open .modalout-button {
+  opacity: 0;
+}
+.modalout.is-open .modalout-container {
+  opacity: 1;
+  transition-duration: 1s;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+.modalout.is-open .modalout-right img {
+  transform: scale(1);
+}
+.modalout.is-open .modalout-left {
+  transform: translateY(0);
+  opacity: 1;
+  transition-delay: 0.1s;
+}
+.modalout-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modalout-buttons a {
+  color: rgba(51, 51, 51, 0.6);
+  font-size: 14px;
+}
+
+.sign-in {
+  margin: 30px 0 0;
+  font-size: 14px;
+  text-align: center;
+}
+.sign-in a {
+  color: #8c7569;
+}
+
+.input-buttonout {
+  padding: 8px 12px;
+  outline: none;
+  border: 0;
+  color: #fff;
+  border-radius: 4px;
+  background: #8c7569;
+  font-family: "Nunito", sans-serif;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.input-buttonout:hover {
+  background: #55311c;
+}
+
+@media (max-width: 750px) {
+  .modalout-container {
+    width: 90%;
+  }
+
+  .modalout-right {
+    display: none;
+  }
+}
+
+@keyframes scaling {
+  0% {
+    width: 85%;
+    height: 85%;
+  }
+  100% {
+    width: 80%;
+    height: 80%;
+  }
+}
+
+.checkDuplicateEmail {
+	font-weight: bold;
+    cursor: pointer;
+    color: #927468;
+}
