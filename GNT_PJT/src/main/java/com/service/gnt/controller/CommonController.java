@@ -48,6 +48,7 @@ public class CommonController {
 		String message = "no";
 		try {
 			Users selected = commonService.getUser(user);
+			System.out.println(selected.toString());
 			if(selected!=null) {
 				maps.put("userinfo", selected);
 				message = "yes";
