@@ -15,6 +15,7 @@
 	 	<result property="totalDonation" column="total_donation" jdbcType="INTEGER"/>
 	 	<result property="quizId" column="quiz_id" jdbcType="INTEGER" />
 	 	<result property="isQuizParticipate" column="is_quiz_participate" jdbcType="VARCHAR"/>
+	 	<result property="isStaff" column="is_staff" jdbcType="VARCHAR" />
 	 </resultMap>
 	 
 	<update id="updateUserInfo" parameterType="users">
@@ -63,7 +64,7 @@
 	</select>
 	<select id="selectUser" parameterType="users" resultMap="Userreg">
 		SELECT user_id, acc_id, user_name, user_name_eng, user_email, USER_PASSWORD,
-		address, phone, total_donation, quiz_id, is_quiz_participate
+		address, phone, total_donation, quiz_id, is_quiz_participate, is_staff
 		FROM USERS
 		WHERE USER_EMAIL=#{userEmail}
 		AND USER_PASSWORD=#{userPassword}

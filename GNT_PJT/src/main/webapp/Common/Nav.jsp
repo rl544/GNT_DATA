@@ -30,6 +30,13 @@
 				$('.nav-inner #card').css('display', 'block')
 			}
 			
+			User = JSON.parse(localStorage.getItem('user'))
+			if(User.isStaff=='1') {
+				$('#admin').css('display', 'block')
+			} else {
+				$('#admin').css('display', 'none')
+			}
+			
 			
 			$('.logo').click(function() {
 				location.href="../Main/Home.html"	
@@ -70,6 +77,10 @@
 				location.href = "../Main/Main.jsp"
 			})
 			
+			$('#admin').click(function() {
+				location.href = "../AAA/AAA.jsp"
+			})
+			
 		})
 		
 				
@@ -83,6 +94,7 @@
        		<span id="login">로그인</span>
        		<span id="signup">회원가입</span>
        		<span id="logout">로그아웃</span>
+       		<span id="admin">관리자페이지</span>
        	</div>
         <div class="nav-inner offset-2 col-4">
         	<span id="main">계좌</span>
