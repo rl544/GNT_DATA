@@ -1,4 +1,5 @@
 package com.service.gnt.model.service;
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,5 +46,11 @@ public class DonationServiceImpl implements DonationService{
 	public Donation getDoantionDetail(String donationId) {
 		return donationDAO.getDoantionDetail(donationId);
 	}
-	
+	public List<HashMap<String,Object>> getDonationStatistic(Integer userId) {
+		return donationDAO.getDonationStatistic(userId);
+	}
+
+	public HashMap<String, Object> getDonationStatistic2(Integer userId){
+		return donationDAO.getDonationStatistic2(userId);
+	}
 }

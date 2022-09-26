@@ -165,4 +165,52 @@ public class DonationController {
 			return maps;
 		}
 	}		
+	@PostMapping("getDonationStatistic.do") //유저별 기부 통계
+	public Map<String,Object> getDonationStatistic(Integer userId) {
+		String message = "no";
+		Map<String, Object> maps = new HashMap<String,Object>();
+		try {
+			List<HashMap<String,Object>> data = donationService.getDonationStatistic(userId);
+			if(data!=null && data.size() > 0) {
+				message = "yes";
+				//System.out.println(data.size());
+				if(data.size() == 1) {
+					maps = data.get(0);
+				}
+				else {
+					Object index = 0;
+					for(HashMap<String,Object> m : data) {
+						if(m!=null) {
+							index = m.get("userId");
+							maps.put(index+"",m);
+						}
+					}
+				}
+			}
+			maps.put("message",message);
+			return maps;
+		} catch (Exception e) {
+			message = "error";
+			maps.put("message",message);
+			return maps;
+		}
+	}
+	@PostMapping("getDonationStatistic2.do") //유저별 기부 통계2
+	public Map<String,Object> getDonationStatistic2(Integer userId) {
+		String message = "no";
+		Map<String, Object> maps = new HashMap<>();
+		try {
+				HashMap<String, Object> data = donationService.getDonationStatistic2(userId);
+				if(data!=null && userId != null) {
+					maps = data;
+				}
+				else maps.put("message",message);
+				return maps;
+		
+		 } catch (Exception e) {
+		 System.out.println("Error :"+e.getMessage()+e.toString());
+		 e.printStackTrace(); message = "error"; maps.put("message",message);
+		 return maps;
+		 }
+	}
 }

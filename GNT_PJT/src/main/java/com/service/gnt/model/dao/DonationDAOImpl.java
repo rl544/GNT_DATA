@@ -1,4 +1,6 @@
 package com.service.gnt.model.dao;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Param;
@@ -9,6 +11,7 @@ import com.service.gnt.domain.account.Account;
 import com.service.gnt.domain.account.MileageHistory;
 import com.service.gnt.domain.donation.Donation;
 import com.service.gnt.domain.donation.DonationHistory;
+import com.service.gnt.domain.users.Users;
 @Repository
 public class DonationDAOImpl implements DonationDAO{
 	private final String NS = "ns.sql.DonationMapper.";
@@ -55,5 +58,101 @@ public class DonationDAOImpl implements DonationDAO{
 	public int addDonationHistory(String donationId, int donationAmount, int userId) {
 		return sqlSession.insert(NS+"insertDonationHistory", new DonationHistory(donationId, donationAmount,userId));
 	}
+	public List<HashMap<String,Object>> getDonationStatistic(Integer userId) {
+		List<HashMap<String,Object>> result = sqlSession.selectList(NS+"selectDonationStatistic", userId);
+		return result;
+	}
+	public HashMap<String, Object> getDonationStatistic2(Integer userId){
+		List<DonationHistory> data = sqlSession.selectList(NS+"selectDonationHistory", userId);
+		//System.out.println(data);
+		HashMap<String, Object> result = new LinkedHashMap<String, Object>();
+		int categoryId = 0;
+		int cat1 = 0;
+		int cat2 = 0;
+		int cat3 = 0;
+		int cat4 = 0;
+		int cat5 = 0;
+		int cat6 = 0;
+		int cat7 = 0;
+		int cat8 = 0;
+		double cat1p = 0;
+		double cat2p = 0;
+		double cat3p = 0;
+		double cat4p = 0;
+		double cat5p = 0;
+		double cat6p = 0;
+		double cat7p = 0;
+		double cat8p = 0;
+		int total = 0;
+		int damount = 0;
+		int cnt = DonationHistoryIsNA(userId);
+		if(cnt>0) {
+			for(DonationHistory m : data) {
+				if(m!=null) {
+					categoryId = getDonationCategoryId(m.getDonationId());
+					total++;
+					damount += m.getAmount();
+					switch (categoryId) {
+					case 1:
+						cat1++;
+						break;
+					case 2:
+						cat2++;
+						break;
+					case 3:
+						cat3++;
+						break;
+					case 4:
+						cat4++;
+						break;
+					case 5:
+						cat5++;
+						break;
+					case 6:
+						cat6++;
+						break;
+					case 7:
+						cat7++;
+						break;
+					case 8:
+						cat8++;
+						break;
+					default:
+						break;
+					}
+				}
+			}
+			cat1p = Math.round(cat1/(double)total*10)/10.0;
+			cat2p = Math.round(cat2/(double)total*10)/10.0;
+			cat3p = Math.round(cat3/(double)total*10)/10.0;
+			cat4p = Math.round(cat4/(double)total*10)/10.0;
+			cat5p = Math.round(cat5/(double)total*10)/10.0;
+			cat6p = Math.round(cat6/(double)total*10)/10.0;
+			cat7p = Math.round(cat7/(double)total*10)/10.0;
+			cat8p = Math.round(cat8/(double)total*10)/10.0;
+			result.put("message","yes");
+			result.put("user_id",userId);
+			result.put("user_name", ((Users) sqlSession.selectOne(UM+"selectUserById",userId)).getUserName());
+			result.put("donation_cnt",cnt);
+			result.put("donation_amount", damount);
+			result.put("category_childern",cat1p);
+			result.put("category_oldman",cat2p);
+			result.put("category_disabled",cat3p);
+			result.put("category_multiculture",cat4p);
+			result.put("category_global",cat5p);
+			result.put("category_family",cat6p);
+			result.put("category_animal",cat7p);
+			result.put("category_environment",cat8p);
+		}
+		else result.put("message","no");
+		return result;
+	}
+
+	public int getDonationCategoryId(String donationId) {
+		return sqlSession.selectOne(NS+"selectDonationCategoryId",donationId);
+	}
 	
+	public int DonationHistoryIsNA(Integer userId) {
+		return sqlSession.selectOne(NS+"selectDonationHistoryIsNA",userId);
+	}
 }

@@ -26,7 +26,27 @@
 	 	<result property="donationAmount" column="DONATION_AMOUNT" jdbcType="INTEGER" />
 	 	<result property="donationLimit" column="DONATION_LIMIT" jdbcType="INTEGER" />
 	 </resultMap>
-
+	<resultMap type="java.util.LinkedHashMap" id="donationStatistic">
+		<result property="userId" column="USER_ID" jdbcType="INTEGER" />
+		<result property="donation_cnt" column="TOTAL" jdbcType="INTEGER" />
+		<result property="donation_amount" column="DONATION_AMOUNT" jdbcType="INTEGER" />
+		<result property="category_childern" column="CAT1P" jdbcType="DOUBLE" />
+		<result property="category_oldman" column="CAT2P" jdbcType="DOUBLE" />
+		<result property="category_disabled" column="CAT3P" jdbcType="DOUBLE" />
+		<result property="category_multiculture" column="CAT4P" jdbcType="DOUBLE" />
+		<result property="category_global" column="CAT5P" jdbcType="DOUBLE" />
+		<result property="category_family" column="CAT6P" jdbcType="DOUBLE" />
+		<result property="category_animal" column="CAT7P" jdbcType="DOUBLE" />
+		<result property="category_environment" column="CAT8P" jdbcType="DOUBLE" />
+		<result property="category_childern_count" column="CAT1" jdbcType="INTEGER" />
+		<result property="category_oldman_count" column="CAT2" jdbcType="INTEGER" />
+		<result property="category_disabled_count" column="CAT3" jdbcType="INTEGER" />
+		<result property="category_multiculture_count" column="CAT4" jdbcType="INTEGER" />
+		<result property="category_global_count" column="CAT5" jdbcType="INTEGER" />
+		<result property="category_family_count" column="CAT6" jdbcType="INTEGER" />
+		<result property="category_animal_count" column="CAT7" jdbcType="INTEGER" />
+		<result property="category_environment_count" column="CAT8" jdbcType="INTEGER" />
+	</resultMap>
 
 	<select id="selectDonationAsk" parameterType="string" resultType="Donation">
 		<![CDATA[
@@ -89,5 +109,50 @@
 		DONATION_HISTORY (DONATION_HISTORY_ID, DONATION_ID, USER_ID, CREATE_TIME, AMOUNT)
 		VALUES (DONATION_HISTORY_SEQ.nextVal, #{donationId}, #{userId}, SYSDATE, #{donationAmount})
 	</insert>
-	
+	<select id="selectDonationStatistic" parameterType="integer" resultMap="donationStatistic">
+		SELECT USER_ID, cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, total, donation_amount,
+		round(cat1/total,1) AS cat1p,
+		round(cat2/total,1) AS cat2p,
+		round(cat3/total,1) AS cat3p,
+		round(cat4/total,1) AS cat4p,
+		round(cat5/total,1) AS cat5p,
+		round(cat6/total,1) AS cat6p,
+		round(cat7/total,1) AS cat7p,
+		round(cat8/total,1) AS cat8p
+		FROM
+		(
+		    SELECT USER_ID, count(*) AS total,
+		    count(case when CATEGORY_ID=1 then 1 end) as cat1,
+		    count(case when CATEGORY_ID=2 then 1 end) as cat2,
+		    count(case when CATEGORY_ID=3 then 1 end) as cat3,
+		    count(case when CATEGORY_ID=4 then 1 end) as cat4,
+		    count(case when CATEGORY_ID=5 then 1 end) as cat5,
+		    count(case when CATEGORY_ID=6 then 1 end) as cat6,
+		    count(case when CATEGORY_ID=7 then 1 end) as cat7,
+		    count(case when CATEGORY_ID=8 then 1 end) as cat8,
+		    sum(AMOUNT) as donation_amount
+		    FROM
+		        (
+		            SELECT DONATION_HISTORY_ID, a.DONATION_ID as DONATION_ID, USER_ID, a.CREATE_TIME as CREATE_TIME, AMOUNT, b.CATEGORY_ID as CATEGORY_ID, CATEGORY_TITLE, TITLE, ORGANIZATION, b.CREATE_TIME as START_TIME, END_TIME, DONATION_AMOUNT, DONATION_LIMIT
+		            FROM DONATION_HISTORY a JOIN DONATION b ON a.donation_id = b.donation_id 
+		            JOIN DONATION_CATEGORY c ON b.category_id = c.category_id
+		        )
+		    group by USER_ID
+		    <if test="userId != null">
+		    having USER_ID = #{userId}
+		    </if>
+		)
+	</select>
+	<select id="selectDonationHistory" parameterType="integer" resultType="donationHistory">
+		SELECT * FROM DONATION_HISTORY
+		WHERE USER_ID = #{VALUE}
+	</select>
+	<select id="selectDonationHistoryIsNA" parameterType="integer" resultType="integer">
+		SELECT count(*) FROM DONATION_HISTORY
+		WHERE USER_ID = #{VALUE}
+	</select>
+	<select id="selectDonationCategoryId" parameterType="String" resultType="integer">
+		SELECT category_id FROM DONATION
+		WHERE donation_id = #{VALUE}
+	</select>
 </mapper>
