@@ -55,7 +55,7 @@
 		          <li class="active ">
 		            <a href="admin.jsp">
 		              <i class="nc-icon nc-bank"></i>
-		              <p>기부 관리</p>
+		              <p>기부 통계 조회</p>
 		            </a>
 		          </li>
 		          <li>
@@ -120,7 +120,6 @@
 		                
 		                <hr>
 		                <div class="stats">
-		                  <i class="fa fa-calendar"></i> Number of emails sent
 		                </div>
 		              </div>
 		            </div>
