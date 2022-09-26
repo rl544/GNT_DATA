@@ -9,6 +9,24 @@ public class DonationHistory {
 	private String donationId;
 	private int donationAmount;
 	private int userId;
+	public String getDonationId() {
+		return donationId;
+	}
+	public void setDonationId(String donationId) {
+		this.donationId = donationId;
+	}
+	public int getDonationAmount() {
+		return donationAmount;
+	}
+	public void setDonationAmount(int donationAmount) {
+		this.donationAmount = donationAmount;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 	public DonationHistory(String donationId, int donationAmount, int userId) {
 		super();
 		this.donationId = donationId;
