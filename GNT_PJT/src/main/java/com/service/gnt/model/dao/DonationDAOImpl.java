@@ -11,7 +11,6 @@ import com.service.gnt.domain.account.Account;
 import com.service.gnt.domain.account.MileageHistory;
 import com.service.gnt.domain.donation.Donation;
 import com.service.gnt.domain.donation.DonationHistory;
-import com.service.gnt.domain.donation.DonationStatistic;
 import com.service.gnt.domain.users.Users;
 @Repository
 public class DonationDAOImpl implements DonationDAO{
