@@ -145,7 +145,7 @@
 		SELECT * FROM DONATION_HISTORY
 		WHERE USER_ID = #{VALUE}
 	</select>
-	<select id="selectDonationHistoryIsNA" parameterType="integer" resultType="donationHistory">
+	<select id="selectDonationHistoryIsNA" parameterType="integer" resultType="integer">
 		SELECT count(*) FROM DONATION_HISTORY
 		WHERE USER_ID = #{VALUE}
 	</select>

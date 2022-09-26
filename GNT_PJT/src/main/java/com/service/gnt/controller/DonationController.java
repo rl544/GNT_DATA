@@ -195,12 +195,11 @@ public class DonationController {
 				}
 				else maps.put("message",message);
 				return maps;
-			} catch (Exception e) {
-				System.out.println("Error :"+e.getMessage()+e.toString());
-				e.printStackTrace();
-				message = "error";
-				maps.put("message",message);
-				return maps;
-			}
+		
+		 } catch (Exception e) {
+		 System.out.println("Error :"+e.getMessage()+e.toString());
+		 e.printStackTrace(); message = "error"; maps.put("message",message);
+		 return maps;
+		 }
 	}
 }
