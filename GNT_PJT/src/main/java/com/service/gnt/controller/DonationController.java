@@ -191,12 +191,10 @@ public class DonationController {
 		try {
 				HashMap<String, Object> data = donationService.getDonationStatistic2(userId);
 				if(data!=null && userId != null) {
-					return data;
+					maps = data;
 				}
-				else {
-					maps.put("message",message);
-					return maps;
-				}						
+				else maps.put("message",message);
+				return maps;
 			} catch (Exception e) {
 				System.out.println("Error :"+e.getMessage()+e.toString());
 				e.printStackTrace();
