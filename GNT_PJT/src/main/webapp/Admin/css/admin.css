@@ -1645,6 +1645,42 @@ a.text-danger:focus, a.text-danger:hover {
 a.text-gray:focus, a.text-gray:hover {
   color: #E3E3E3 !important; }
 
+/* yujin start */
+
+.text-young,
+a.text-young:focus, a.text-young:hover {
+  color: #D95843 !important; }
+  
+.text-old,
+a.text-old:focus, a.text-old:hover {
+  color: #ef8157 !important; }
+
+.text-disabled,
+a.text-disabled:focus, a.text-disabled:hover {
+  color: #fcc468 !important; }
+
+.text-multi,
+a.text-multi:focus, a.text-multi:hover {
+  color: #86E08F !important; }
+  
+.text-global,
+a.text-global:focus, a.text-global:hover {
+  color: #4AC884 !important; }
+  
+.text-family,
+a.text-family:focus, a.text-family:hover {
+  color: #4acccd !important; }
+  
+.text-animal,
+a.text-animal:focus, a.text-animal:hover {
+  color: #4A83B6 !important; }
+  
+.text-env,
+a.text-env:focus, a.text-env:hover {
+  color: #A6369C !important; }
+
+/* yujin end */
+
 .blockquote {
   border-left: none;
   border: 1px solid #66615B;
@@ -3973,7 +4009,7 @@ License - nucleoapp.com/license/
   padding: 15px 15px 0px; }
   .card-stats .card-body .numbers {
     text-align: right;
-    font-size: 2em; }
+    font-size: 1.5em; }
     .card-stats .card-body .numbers p {
       margin-bottom: 0; }
     .card-stats .card-body .numbers .card-category {
@@ -3981,6 +4017,13 @@ License - nucleoapp.com/license/
       font-size: 16px;
       line-height: 1.4em; }
 
+/* yujin start */
+
+.stats{
+	text-align: right;
+}
+
+/* yujin end */
 .card-stats .card-footer {
   padding: 0px 15px 15px; }
   .card-stats .card-footer .stats {
