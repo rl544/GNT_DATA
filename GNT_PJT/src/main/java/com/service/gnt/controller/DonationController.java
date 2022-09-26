@@ -173,8 +173,19 @@ public class DonationController {
 			List<HashMap<String,Object>> data = donationService.getDonationStatistic(userId);
 			if(data!=null && data.size() > 0) {
 				message = "yes";
-				System.out.println(data.size());
-				maps.put("data", data);
+				//System.out.println(data.size());
+				if(data.size() == 1) {
+					maps = data.get(0);
+				}
+				else {
+					Object index = 0;
+					for(HashMap<String,Object> m : data) {
+						if(m!=null) {
+							index = m.get("userId");
+							maps.put(index+"",m);
+						}
+					}
+				}
 			}
 			maps.put("message",message);
 			return maps;
