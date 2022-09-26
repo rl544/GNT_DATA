@@ -1,4 +1,5 @@
 package com.service.gnt.model.service;
+import java.util.HashMap;
 import java.util.List;
 import com.service.gnt.domain.account.Account;
 import com.service.gnt.domain.donation.Donation;
@@ -15,5 +16,6 @@ public interface DonationService {
 	Account modifyMileage(int userId, int donationAmount);
 	int addMileageThruDonation(int donationAmount, int userId);
 	int addDonationHistory(String donationId, int donationAmount, int userId);
-	
+	List<HashMap<String,Object>> getDonationStatistic(Integer userId);
+	HashMap<String, Object> getDonationStatistic2(Integer userId);
 }
