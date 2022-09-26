@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.service.gnt.domain.account.Account;
 import com.service.gnt.domain.donation.Donation;
+import com.service.gnt.domain.donation.DonationStatistic;
 import com.service.gnt.model.dao.DonationDAO;
 @Service
 public class DonationServiceImpl implements DonationService{

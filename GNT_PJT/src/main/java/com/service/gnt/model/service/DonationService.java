@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import com.service.gnt.domain.account.Account;
 import com.service.gnt.domain.donation.Donation;
+import com.service.gnt.domain.donation.DonationStatistic;
 public interface DonationService {
 	List<Donation> getDonationAsk();
 	List<Donation> getCategoryPage(int categoryId);

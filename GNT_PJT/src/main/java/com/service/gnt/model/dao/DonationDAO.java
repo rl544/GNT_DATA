@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import com.service.gnt.domain.account.Account;
 import com.service.gnt.domain.donation.Donation;
+import com.service.gnt.domain.donation.DonationStatistic;
 public interface DonationDAO {
 	List<Donation> getDonationAsk();
 	List<Donation> getCategoryPage(int categoryId);
@@ -20,4 +21,5 @@ public interface DonationDAO {
 	List<HashMap<String,Object>> getDonationStatistic(Integer userId);
 	public int getDonationCategoryId(String donationId);
 	public HashMap<String, Object> getDonationStatistic2(Integer userId);
+	int DonationHistoryIsNA(Integer userId);
 }
