@@ -13,6 +13,7 @@ public class Users {
 	private int totalDonation;
 	private int quizId;
 	private String isQuizParticipate; // BOOLEAN
+	private String isStaff;
 	public Users() {}
 	public Users(String userEmail, String userName, String userPassword) {
 		this.userEmail = userEmail;
@@ -53,7 +54,7 @@ public class Users {
 		this.isQuizParticipate = isQuizParticipate;
 	}
 	public Users(int userId, String accId, String userName, String userNameEng, String userEmail, String userPassword,
-			String address, String phone, int totalDonation, int quizId, String isQuizParticipate) {
+			String address, String phone, int totalDonation, int quizId, String isQuizParticipate, String isStaff) {
 		super();
 		this.userId = userId;
 		this.accId = accId;
@@ -66,6 +67,13 @@ public class Users {
 		this.totalDonation = totalDonation;
 		this.quizId = quizId;
 		this.isQuizParticipate = isQuizParticipate;
+		this.isStaff = isStaff;
+	}
+	public String getIsStaff() {
+		return isStaff;
+	}
+	public void setIsStaff(String isStaff) {
+		this.isStaff = isStaff;
 	}
 	public String getAccId() {
 		return accId;
