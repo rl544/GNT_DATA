@@ -26,25 +26,26 @@
 	 	<result property="donationAmount" column="DONATION_AMOUNT" jdbcType="INTEGER" />
 	 	<result property="donationLimit" column="DONATION_LIMIT" jdbcType="INTEGER" />
 	 </resultMap>
-	<resultMap type="hashmap" id="donationStatistic">
+	<resultMap type="java.util.LinkedHashMap" id="donationStatistic">
 		<result property="userId" column="USER_ID" jdbcType="INTEGER" />
-		<result property="cat1" column="CAT1" jdbcType="INTEGER" />
-		<result property="cat2" column="CAT2" jdbcType="INTEGER" />
-		<result property="cat3" column="CAT3" jdbcType="INTEGER" />
-		<result property="cat4" column="CAT4" jdbcType="INTEGER" />
-		<result property="cat5" column="CAT5" jdbcType="INTEGER" />
-		<result property="cat6" column="CAT6" jdbcType="INTEGER" />
-		<result property="cat7" column="CAT7" jdbcType="INTEGER" />
-		<result property="cat8" column="CAT8" jdbcType="INTEGER" />
-		<result property="total" column="TOTAL" jdbcType="INTEGER" />
-		<result property="cat1p" column="CAT1P" jdbcType="DOUBLE" />
-		<result property="cat2p" column="CAT2P" jdbcType="DOUBLE" />
-		<result property="cat3p" column="CAT3P" jdbcType="DOUBLE" />
-		<result property="cat4p" column="CAT4P" jdbcType="DOUBLE" />
-		<result property="cat5p" column="CAT5P" jdbcType="DOUBLE" />
-		<result property="cat6p" column="CAT6P" jdbcType="DOUBLE" />
-		<result property="cat7p" column="CAT7P" jdbcType="DOUBLE" />
-		<result property="cat8p" column="CAT8P" jdbcType="DOUBLE" />
+		<result property="donation_cnt" column="TOTAL" jdbcType="INTEGER" />
+		<result property="donation_amount" column="DONATION_AMOUNT" jdbcType="INTEGER" />
+		<result property="category_childern" column="CAT1P" jdbcType="DOUBLE" />
+		<result property="category_oldman" column="CAT2P" jdbcType="DOUBLE" />
+		<result property="category_disabled" column="CAT3P" jdbcType="DOUBLE" />
+		<result property="category_multiculture" column="CAT4P" jdbcType="DOUBLE" />
+		<result property="category_global" column="CAT5P" jdbcType="DOUBLE" />
+		<result property="category_family" column="CAT6P" jdbcType="DOUBLE" />
+		<result property="category_animal" column="CAT7P" jdbcType="DOUBLE" />
+		<result property="category_environment" column="CAT8P" jdbcType="DOUBLE" />
+		<result property="category_childern_count" column="CAT1" jdbcType="INTEGER" />
+		<result property="category_oldman_count" column="CAT2" jdbcType="INTEGER" />
+		<result property="category_disabled_count" column="CAT3" jdbcType="INTEGER" />
+		<result property="category_multiculture_count" column="CAT4" jdbcType="INTEGER" />
+		<result property="category_global_count" column="CAT5" jdbcType="INTEGER" />
+		<result property="category_family_count" column="CAT6" jdbcType="INTEGER" />
+		<result property="category_animal_count" column="CAT7" jdbcType="INTEGER" />
+		<result property="category_environment_count" column="CAT8" jdbcType="INTEGER" />
 	</resultMap>
 
 	<select id="selectDonationAsk" parameterType="string" resultType="Donation">
@@ -109,7 +110,7 @@
 		VALUES (DONATION_HISTORY_SEQ.nextVal, #{donationId}, #{userId}, SYSDATE, #{donationAmount})
 	</insert>
 	<select id="selectDonationStatistic" parameterType="integer" resultMap="donationStatistic">
-		SELECT USER_ID, cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, total,
+		SELECT USER_ID, cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, total, donation_amount,
 		round(cat1/total,1) AS cat1p,
 		round(cat2/total,1) AS cat2p,
 		round(cat3/total,1) AS cat3p,
@@ -128,7 +129,8 @@
 		    count(case when CATEGORY_ID=5 then 1 end) as cat5,
 		    count(case when CATEGORY_ID=6 then 1 end) as cat6,
 		    count(case when CATEGORY_ID=7 then 1 end) as cat7,
-		    count(case when CATEGORY_ID=8 then 1 end) as cat8
+		    count(case when CATEGORY_ID=8 then 1 end) as cat8,
+		    sum(AMOUNT) as donation_amount
 		    FROM
 		        (
 		            SELECT DONATION_HISTORY_ID, a.DONATION_ID as DONATION_ID, USER_ID, a.CREATE_TIME as CREATE_TIME, AMOUNT, b.CATEGORY_ID as CATEGORY_ID, CATEGORY_TITLE, TITLE, ORGANIZATION, b.CREATE_TIME as START_TIME, END_TIME, DONATION_AMOUNT, DONATION_LIMIT
