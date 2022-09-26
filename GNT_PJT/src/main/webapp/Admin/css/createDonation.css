@@ -4395,3 +4395,13 @@ License - nucleoapp.com/license/
     
     
 /* yujin insert */
+
+.input-block {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
