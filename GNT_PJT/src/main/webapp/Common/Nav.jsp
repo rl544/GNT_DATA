@@ -22,6 +22,7 @@
 				$('#signup').css('display', 'block')
 				$('#logout').css('display', 'none')
 				$('.nav-inner #card').css('display', 'none')
+				$('#admin').css('display', 'none')
 				
 			} else {
 				$('#login').css('display', 'none')
@@ -78,7 +79,7 @@
 			})
 			
 			$('#admin').click(function() {
-				location.href = "../AAA/AAA.jsp"
+				location.href = "../Admin/admin.jsp"
 			})
 			
 		})

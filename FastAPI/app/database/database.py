@@ -8,11 +8,6 @@ mongo_url = "mongodb://localhost:27017/"
 client = MongoClient(mongo_url)
 db = client['admin']
 
-def get_donation_list():
-    donations = db.user.find({'donation_amount': {'$gte': 100000}}, {'_id': 0})
-    users = list(donations)
-    return users
-    
 def get_donation_info():
     total_amount = db.lavel2.aggregate([{'$project': {"_id": 0}}, {'$group': {'_id': 'null', 'total': {'$sum': '$donation_amount'}, 'cnt': {'$sum': 1}}}])
     start_date = "2022-09-19T00:00:00.000+00:00"
@@ -118,4 +113,22 @@ def get_donation_chart3():
         result['09/19'] = i['cnt']
     for i in chart1_day10:
         result['09/20'] = i['cnt']
+    return result
+
+def get_donation_list(dona_list):
+    result = list()
+    for id in dona_list:
+        result.append(db.donation.find_one({'donation_id': id}, {'_id': 0}))
+    return result
+
+def get_donation_noun_list(donation_id):
+    donation = db.donation.find_one({'donation_id': donation_id}, {'_id': 0})
+    sub = donation['most_noun']
+    result = []
+    for i in sub:
+        sub_dic = {}
+        sub_dic['x'] = i[0]
+        sub_dic['value'] = i[1]
+        result.append(sub_dic)
+
     return result
