@@ -27,6 +27,17 @@ public class DonationHistory {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
+	
+	public DonationHistory(int donationHistoryId, String createTime, int amount,
+			String donationId, int userId) {
+		super();
+		this.donationHistoryId = donationHistoryId;
+		this.createTime = createTime;
+		this.amount = amount;
+		this.donationId = donationId;
+		this.userId = userId;
+	}
+	
 	public DonationHistory(String donationId, int donationAmount, int userId) {
 		super();
 		this.donationId = donationId;

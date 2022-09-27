@@ -55,7 +55,7 @@
 				setTimeout(() => {
 		      		demo.initChartsPages(chart);
 			        demo.initTopPages(); // 값 불러오기
-				}, 5500);
+				}, 6000);
 			})
 			
 			function getInfo4() {
@@ -98,7 +98,6 @@
 					data: {
 					},
 					success: function(res) {
-						console.log(res)
 						chart['chart2'] = res
 					},
 					error: function(err) {
@@ -320,7 +319,7 @@
 		          <li>
 		            <a href="createDonation.jsp">
 		              <i class="nc-icon nc-diamond"></i>
-		              <p>기부 항목 추가</p>
+		              <p>기부 달성 목표 예측</p>
 		            </a>
 		          </li>
 		        </ul>

@@ -23,6 +23,8 @@
 		var Donation = {}
 		
 		$(function() {
+			
+			var userInfo = JSON.parse(localStorage.getItem('user'));
 			getDonationBasic()
 			getRecent()
 			
@@ -53,6 +55,15 @@
 				$('.next-page').css('display', 'block')
 				getDonationBasic()
 			})
+			
+			$('#rec').click(function() {
+				getUserDonation(userInfo)
+				/* removeSelected();
+				$(this).addClass('selected')
+				$('.next-page').css('display', 'block')
+				getDonationBasic() */
+			})
+			
 			$('#child').click(function() {
 				removeSelected();
 				$(this).addClass('selected')
@@ -123,12 +134,103 @@
 			})	
 		}
 		
+		function getUserDonation(userInfo) {
+			userId = userInfo.userId
+			$.ajax({
+				type: 'post',
+				url: '../getDonationStatistic2.do',
+				data: {
+					'userId': userId
+				},
+				success: function(res) {
+					console.log(res)
+					if (res.message=='yes') {
+						removeSelected();
+						$('#rec').addClass('selected')
+						$('.next-page').css('display', 'block')
+						userData = Object()
+						$.each(res, function(index, item) {
+							if (index!='message') {
+								userData[index] = item
+							}
+						})
+						getDonationRec(userData)
+					} else {
+						swal({
+							title: "이용 불가!",
+							text: "기부 기록이 없어 맞춤 항목을 확인할 수 없습니다.!",
+							icon: "warning",
+							button: "확인",
+						})
+						getDonationBasic()
+					}
+				},
+				error: function(err) {
+					console.log(err)
+				}
+			})
+		}
+		
+		function getDonationRec(userData) {
+			data = {
+				"user_id": userData.user_id,
+				"donation_cnt": parseInt(userData.donation_cnt),
+				"donation_amount": parseInt(userData.donation_amount),
+				"category_children": parseFloat(userData.category_childern),
+				"category_oldman": parseFloat(userData.category_oldman),
+				"category_disabled": parseFloat(userData.category_disabled),
+				"category_multiculture": parseFloat(userData.category_multiculture),
+				"category_global": parseFloat(userData.category_global),
+				"category_family": parseFloat(userData.category_family),
+				"category_animal": parseFloat(userData.category_animal),
+				"category_environment": parseFloat(userData.category_environment)
+			}
+			$.ajax({
+				type: 'post',
+				url: 'http://127.0.0.1:8970/recommend',
+				data: JSON.stringify(data),
+				contentType: 'application/json; charset=utf-8',
+				success: function(res) {
+					console.log(res)
+					Donation = res
+					$('.donation-list').empty();
+					$.each(Donation, function(index, item) {
+						donationPercent = Math.round((item.donation_amount/item.donation_limit)*100)
+						backgroundColor = checkBackgroundColor(donationPercent)
+						$('.donation-list').append(
+							'<section class="cards col-4 mb-5">' +
+								'<article class="card card--1" id='+item.donation_id+'>' +
+								'<div class="card__img" style=background-image:url('+item.donation_img+')></div>' +
+								'<a href="#" class="card_link">' +
+									'<div class="card__img--hover" style=background-image:url('+item.donation_img+')></div>' +
+								'</a>' +
+								'<div class="card__info">' +
+									'<h3 class="card__title">'+item.donation_title+'</h3>' +
+									'<span class="card__by">' +
+										'<a href="#" class="card__author" title="author">'+item.donation_organization+'</a>' +
+									'</span>' +
+									'<div class="container-fluid">' +
+										'<div class="Loading">' +
+											'<div class="Loading-after" style=width:'+donationPercent+'%;background-color:'+backgroundColor+';></div>' +
+										'</div>' +
+										'<span class="progress-span">'+donationPercent+'%</span>' +
+							'</div></div></article></section>'
+						);
+					})
+				},
+				error: function(err) {
+					console.log(err)
+				}
+			})
+		}
+		
 		function getDonationBasic() {
 			$.ajax({
 				type: 'get',
 				url: '../getDonationAsk.do',
 				data: {},
 				success: function(res) {
+					console.log(res)
 					if(res.message.message=="yes") {
 						Donation = res.Donation
 						$('.donation-list').empty();
@@ -295,8 +397,8 @@
 			<div class="row">
 				<div class="col-10 row" style="border-right: 1px solid #c4c5c4; padding-left: 3rem; padding-right: 0rem;">
 					<div class="donation-category">
-						<span>기부</span>
 						<button class="donation-btn selected" id="all">전체</button>
+						<button class="donation-btn" id="rec">맞춤</button>
 						<button class="donation-btn" id="child">아동•청소년</button>
 						<button class="donation-btn" id="old">어르신</button>
 						<button class="donation-btn" id="disabled">장애인</button>

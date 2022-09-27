@@ -19,8 +19,9 @@ public class DonationDAOImpl implements DonationDAO{
 	public final String AM = "ns.sql.AccountMapper.";
 	@Autowired
 	private SqlSession sqlSession;
+	
 	public List<Donation> getDonationAsk() {
-		return sqlSession.selectList(NS+"selectDonationAsk", null);
+		return sqlSession.selectList(NS+"selectDonationAsk");
 	}
 	public List<Donation> getCategoryPage(int categoryId) {
 		return sqlSession.selectList(NS+"selectCategoryPage",categoryId);
@@ -64,7 +65,6 @@ public class DonationDAOImpl implements DonationDAO{
 	}
 	public HashMap<String, Object> getDonationStatistic2(Integer userId){
 		List<DonationHistory> data = sqlSession.selectList(NS+"selectDonationHistory", userId);
-		//System.out.println(data);
 		HashMap<String, Object> result = new LinkedHashMap<String, Object>();
 		int categoryId = 0;
 		int cat1 = 0;

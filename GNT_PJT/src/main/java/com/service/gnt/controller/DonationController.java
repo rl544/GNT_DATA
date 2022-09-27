@@ -200,12 +200,12 @@ public class DonationController {
 		String message = "no";
 		Map<String, Object> maps = new HashMap<>();
 		try {
-				HashMap<String, Object> data = donationService.getDonationStatistic2(userId);
-				if(data!=null && userId != null) {
-					maps = data;
-				}
-				else maps.put("message",message);
-				return maps;
+			HashMap<String, Object> data = donationService.getDonationStatistic2(userId);
+			if(data!=null && userId != null) {
+				maps = data;
+			}
+			else maps.put("message",message);
+			return maps;
 		
 		 } catch (Exception e) {
 		 System.out.println("Error :"+e.getMessage()+e.toString());

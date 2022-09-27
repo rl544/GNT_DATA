@@ -8,11 +8,13 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
-	</head>
+	
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 	
+	<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-core.min.js"></script>
+	<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-tag-cloud.min.js"></script>
 	<style scoped>
 		@import url("css/DonationDetail.css?ver=1");
 	</style>
@@ -24,8 +26,10 @@
 		
 		const categoryList = ['아동·청소년', '어르신', '장애인', '다문화', '지구촌', '가족·여성', '동물', '환경'];
 		
-		$(function() {
+		
+		$(function() {			
 			getDonationDetail()
+			getDonationNoun()
 			
 			$('body').css('height', '100%').css('background-color', '#fff2c61c')
 			
@@ -146,25 +150,25 @@
 						backgroundColor = checkBackgroundColor(donationPercent)
 						donationAmount = Donation.donationAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 						donationLimit = Donation.donationLimit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-						
+						console.log(Donation)
 						changeRecentItems(Donation)
 						$('.donation_detail_title').empty()
 						$('.donation_detail_title').html(Donation.title)
 						$('.example > .block > .side').css("background-image", "url("+Donation.imageUri+")")
 						$('.donation_detail_content').empty()
-						if (Donation.section1!=null) {
+						if (Donation.section1!="nan") {
 							$('.donation_detail_content').append('<h4 class=content-title>'+Donation.section1Title+'</h4>');
 							$('.donation_detail_content').append('<p class=content-content>'+Donation.section1+'</p>');
-							if (Donation.section2!=null) {
+							if (Donation.section2!="nan") {
 								$('.donation_detail_content').append('<h4 class=content-title>'+Donation.section2Title+'</h4>');
 								$('.donation_detail_content').append('<p class=content-content>'+Donation.section2+'</p>');
-								if (Donation.section3!=null) {
+								if (Donation.section3!="nan") {
 									$('.donation_detail_content').append('<h4 class=content-title>'+Donation.section3Title+'</h4>');
 									$('.donation_detail_content').append('<p class=content-content>'+Donation.section3+'</p>');
-									if (Donation.section4!=null) {
+									if (Donation.section4!="nan") {
 										$('.donation_detail_content').append('<h4 class=content-title>'+Donation.section4Title+'</h4>');
 										$('.donation_detail_content').append('<p class=content-content>'+Donation.section4+'</p>');
-										if (Donation.section5!=null) {
+										if (Donation.section5!="nan") {
 											$('.donation_detail_content').append('<h4 class=content-title>'+Donation.section5Title+'</h4>');
 											$('.donation_detail_content').append('<p class=content-content>'+Donation.section5+'</p>');
 										}
@@ -211,6 +215,27 @@
 			})
 		}
 		
+		function getDonationNoun() {
+			donation_id = localStorage.getItem('DonationDetailId')
+			$.ajax({
+				type: 'get',
+				url: 'http://127.0.0.1:8970/donation/'+donation_id,
+				contentType: 'application/json; charset=utf-8',
+				success: function(res) {
+					console.log(res)
+					chart = anychart.tagCloud(res);
+					// set the container id
+					chart.container("container");
+					chart.mode("rect");
+					// initiate drawing the chart
+					chart.draw();
+					
+				},
+				error: function(err) {
+					console.log(err)
+				}
+			})
+		}
 		
 		function changeRecentItems(Donation) {
 			recentList = JSON.parse(localStorage.getItem('recentList'))
@@ -338,6 +363,7 @@
 
 		
 	</script>
+	</head>
 	<body>
 		<div class="success">
 			
@@ -446,6 +472,8 @@
 							</div>
 							
 						</div>
+						<div id="container" style="margin-top: 5rem;"></div>
+						
 					</div>
 					<div class="col-6" style="max-height: 75vh; padding-left: 3rem;">
 						<div class="donation_detail_organization d-flex justify-content-end align-items-center">

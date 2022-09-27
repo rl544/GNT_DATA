@@ -48,12 +48,12 @@
 		<result property="category_environment_count" column="CAT8" jdbcType="INTEGER" />
 	</resultMap>
 
-	<select id="selectDonationAsk" parameterType="string" resultType="Donation">
+	<select id="selectDonationAsk" resultType="Donation">
 		<![CDATA[
 		select * from (
-		select DONATION_ID,CATEGORY_ID,DONATION_LIMIT,DONATION_AMOUNT,TITLE,IMAGE_URI,ORGANIZATION from
+		select * from
 		donation
-		order by CREATE_TIME desc
+		order by DONATION_AMOUNT/DONATION_LIMIT desc
 		)
 		where rownum <= 15]]>
 		<!-- TITLE,CREATE_TIME,END_TIME -->
@@ -144,7 +144,7 @@
 		)
 	</select>
 	<select id="selectDonationHistory" parameterType="integer" resultType="donationHistory">
-		SELECT * FROM DONATION_HISTORY
+		SELECT DONATION_HISTORY_ID, CREATE_TIME, amount, DONATION_ID, USER_ID FROM DONATION_HISTORY
 		WHERE USER_ID = #{VALUE}
 	</select>
 	<select id="selectDonationHistoryIsNA" parameterType="integer" resultType="integer">
